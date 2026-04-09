@@ -9,6 +9,9 @@ import com.niraj.zorvynfinancebackend.user.entity.User;
 import com.niraj.zorvynfinancebackend.user.repository.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import com.niraj.zorvynfinancebackend.security.model.RegisterRequest;
+import com.niraj.zorvynfinancebackend.user.enums.UserRole;
+import com.niraj.zorvynfinancebackend.user.enums.UserStatus;
 
 import java.util.List;
 
@@ -31,6 +34,31 @@ public class UserService {
                 passwordEncoder.encode(request.getPassword()),
                 request.getRole(),
                 request.getStatus()
+        );
+
+        User saved = repository.save(user);
+
+        return new UserResponse(
+                saved.getId(),
+                saved.getName(),
+                saved.getEmail(),
+                saved.getRole(),
+                saved.getStatus()
+        );
+    }
+
+    public UserResponse registerFirstAdmin(RegisterRequest request) {
+
+        if (repository.count() > 0) {
+            throw new RuntimeException("Public registration is disabled. Please contact admin.");
+        }
+
+        User user = new User(
+                request.getName(),
+                request.getEmail(),
+                passwordEncoder.encode(request.getPassword()),
+                UserRole.ADMIN,
+                UserStatus.ACTIVE
         );
 
         User saved = repository.save(user);
