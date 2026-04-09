@@ -116,11 +116,23 @@ cd zorvyn-finance-backend
 
 CREATE DATABASE zorvyn_finance;
 
-#### 3. Configure application.properties
+### 3. Configure application.properties
+
+Update database credentials before running the application:
 
 spring.datasource.url=jdbc:mysql://localhost:3306/zorvyn_finance
 spring.datasource.username=your_mysql_username
 spring.datasource.password=your_mysql_password
+
+Replace:
+- your_mysql_username → your local MySQL username
+- your_mysql_password → your local MySQL password
+
+Note:
+Make sure MySQL is running and the database "zorvyn_finance" is already created.
+
+If database is not created, run:
+CREATE DATABASE zorvyn_finance;
 
 #### 4. Run the application
 
